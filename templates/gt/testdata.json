@@ -1,0 +1,27 @@
+[
+    {
+        "${ASSERTION_TARGET}": 2,
+        "${ASSERTION_AGAINST}": 1,
+        "ok": true
+    },
+    {
+        "${ASSERTION_TARGET}": 1,
+        "${ASSERTION_AGAINST}": 2,
+        "ok": false
+    },
+    {
+        "${ASSERTION_TARGET}": 100,
+        "${ASSERTION_AGAINST}": "1",
+        "ok": true
+    },
+    {
+        "${ASSERTION_TARGET}": -1,
+        "${ASSERTION_AGAINST}": 1,
+        "ok": false
+    },
+    {
+        "${ASSERTION_TARGET}": 1,
+        "${ASSERTION_AGAINST}": 1,
+        "ok": false
+    }
+]

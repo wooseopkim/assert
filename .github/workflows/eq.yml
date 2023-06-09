@@ -1,0 +1,29 @@
+# DO NOT EDIT MANUALLY
+# GENERATED FROM TEMPLATE templates/workflow.yml
+
+name: Test eq
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  eq:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          ${{ fromJSON('[{"x":1,"eq":1,"ok":true},{"x":1,"eq":"1","ok":true},{"x":100,"eq":1,"ok":false}]') }}
+    steps:
+      - uses: actions/checkout@v3
+      - run: make eq/action.yml
+      - id: test
+        name: Test behaviour
+        uses: ./eq
+        with:
+          x: ${{ matrix.x }}
+          eq: ${{ matrix.eq }}
+      - if: ${{ always() && fromJSON(steps.test.outputs.ok) != matrix.ok }}
+        run: exit 1

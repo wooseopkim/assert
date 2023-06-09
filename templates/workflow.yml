@@ -1,0 +1,26 @@
+name: Test ${ASSERTION_TYPE}
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  ${ASSERTION_TYPE}:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          ${{ fromJSON('${ASSERTION_TESTDATA}') }}
+    steps:
+      - uses: actions/checkout@v3
+      - run: make ${ASSERTION_TYPE}/action.yml
+      - id: test
+        name: Test behaviour
+        uses: ./${ASSERTION_TYPE}
+        with:
+          ${ASSERTION_TARGET}: ${{ matrix.${ASSERTION_TARGET} }}
+          ${ASSERTION_TYPE}: ${{ matrix.${ASSERTION_TYPE} }}
+      - if: ${{ always() && fromJSON(steps.test.outputs.ok) != matrix.ok }}
+        run: exit 1

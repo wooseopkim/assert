@@ -1,0 +1,36 @@
+name: 'assert/${ASSERTION_TYPE}'
+description: '${ASSERTION_DESCRIPTION}'
+
+inputs:
+  ${ASSERTION_TARGET}:
+    description: 'Value to test'
+    required: true
+  ${ASSERTION_AGAINST}:
+    description: 'Value to test `${ASSERTION_TARGET}` against'
+    required: true
+  message:
+    description: 'Error message'
+    required: false
+outputs:
+  ok:
+    description: 'If the assertion has passed'
+    value: ${{ steps.cond.outputs.ok }}
+
+runs:
+  using: 'composite'
+  steps:
+    - id: cond
+      name: 'Test condition'
+      shell: bash
+      run: |
+        echo 'ok=${{ ${ASSERTION_CONDITION} }}' >> $GITHUB_OUTPUT
+    - if: ${{ steps.cond.outputs.ok }}
+      shell: bash
+      # Do nothing, but report success to the actions log
+      run: |
+        :
+    - if: ${{ !steps.cond.outputs.ok }}
+      shell: bash
+      run: |
+        echo "::error ${{ inputs.message || format(${ASSERTION_DEFAULT_MESSAGE}, inputs.${ASSERTION_TARGET}, inputs.${ASSERTION_AGAINST}) }}"
+        exit 1

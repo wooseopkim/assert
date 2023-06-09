@@ -1,0 +1,29 @@
+# DO NOT EDIT MANUALLY
+# GENERATED FROM TEMPLATE templates/workflow.yml
+
+name: Test lt
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  lt:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          ${{ fromJSON('[{"x":2,"lt":1,"ok":false},{"x":1,"lt":2,"ok":true},{"x":100,"lt":"1","ok":false},{"x":-1,"lt":1,"ok":true},{"x":1,"lt":1,"ok":false}]') }}
+    steps:
+      - uses: actions/checkout@v3
+      - run: make lt/action.yml
+      - id: test
+        name: Test behaviour
+        uses: ./lt
+        with:
+          x: ${{ matrix.x }}
+          lt: ${{ matrix.lt }}
+      - if: ${{ always() && fromJSON(steps.test.outputs.ok) != matrix.ok }}
+        run: exit 1

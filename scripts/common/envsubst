@@ -1,0 +1,10 @@
+#!/usr/bin/bash
+
+set -e
+set -o pipefail
+
+TEMPLATE_FILE="$1"
+
+TEMPLATE=$(cat "$TEMPLATE_FILE")
+VARIABLES=$(envsubst --variables "$TEMPLATE" | xargs -I % echo $% | sed -E 's/\$GITHUB_[^ ]+//')
+envsubst "$VARIABLES" < "$TEMPLATE_FILE"

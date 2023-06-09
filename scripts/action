@@ -1,0 +1,11 @@
+#!/usr/bin/bash
+
+set -e
+set -o pipefail
+
+OP="$1"
+OUT_FILE="$2"
+
+COMMON_SCRIPTS=$(dirname "$0")/common
+set "$OP"; source "$COMMON_SCRIPTS"/variables
+"$COMMON_SCRIPTS"/populate templates/action.yml "$OUT_FILE"

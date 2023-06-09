@@ -1,0 +1,12 @@
+#!/usr/bin/bash
+
+set -e
+set -o pipefail
+
+OP="$1"
+OUT_FILE="$2"
+
+COMMON_SCRIPTS=$(dirname "$0")/common
+set "$OP"; source "$COMMON_SCRIPTS"/variables
+export ASSERTION_TESTDATA=$("$COMMON_SCRIPTS"/envsubst "templates/$OP/testdata.json" | jq -c)
+"$COMMON_SCRIPTS"/populate templates/workflow.yml "$OUT_FILE"

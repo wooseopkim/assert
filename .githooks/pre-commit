@@ -1,0 +1,7 @@
+#!/usr/bin/bash
+
+set -e
+set -o pipefail
+
+make workflows
+git add .github/workflows/*.yml

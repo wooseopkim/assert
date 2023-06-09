@@ -1,0 +1,13 @@
+#!/usr/bin/bash
+
+set -e
+set -o pipefail
+
+OP="$1"
+
+set -a
+ASSERTION_TARGET=${ASSERTION_TARGET:-x}
+ASSERTION_AGAINST=${ASSERTION_AGAINST:-$OP}
+ASSERTION_TYPE=${ASSERTION_TYPE:-$OP}
+source "templates/$OP/.env"
+set +a

@@ -1,0 +1,29 @@
+# DO NOT EDIT MANUALLY
+# GENERATED FROM TEMPLATE templates/workflow.yml
+
+name: Test gte
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  gte:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          ${{ fromJSON('[{"x":2,"gte":1,"ok":true},{"x":1,"gte":2,"ok":false},{"x":100,"gte":"1","ok":true},{"x":-1,"gte":1,"ok":false},{"x":1,"gte":1,"ok":true}]') }}
+    steps:
+      - uses: actions/checkout@v3
+      - run: make gte/action.yml
+      - id: test
+        name: Test behaviour
+        uses: ./gte
+        with:
+          x: ${{ matrix.x }}
+          gte: ${{ matrix.gte }}
+      - if: ${{ always() && fromJSON(steps.test.outputs.ok) != matrix.ok }}
+        run: exit 1

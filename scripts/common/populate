@@ -1,0 +1,12 @@
+#!/usr/bin/bash
+
+set -e
+set -o pipefail
+
+export BODY_TEMPLATE_FILE="$1"
+OUT_FILE="$2"
+
+ENVSUBST=$(dirname "$0")/envsubst
+mkdir -p $(dirname "$OUT_FILE")
+"$ENVSUBST" templates/header.txt > "$OUT_FILE"
+"$ENVSUBST" "$BODY_TEMPLATE_FILE" >> "$OUT_FILE"

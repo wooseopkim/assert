@@ -1,0 +1,29 @@
+# DO NOT EDIT MANUALLY
+# GENERATED FROM TEMPLATE templates/workflow.yml
+
+name: Test neq
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  neq:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          ${{ fromJSON('[{"x":1,"neq":1,"ok":false},{"x":1,"neq":"1","ok":false},{"x":100,"neq":1,"ok":true}]') }}
+    steps:
+      - uses: actions/checkout@v3
+      - run: make neq/action.yml
+      - id: test
+        name: Test behaviour
+        uses: ./neq
+        with:
+          x: ${{ matrix.x }}
+          neq: ${{ matrix.neq }}
+      - if: ${{ always() && fromJSON(steps.test.outputs.ok) != matrix.ok }}
+        run: exit 1
