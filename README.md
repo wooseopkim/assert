@@ -9,7 +9,7 @@ Yet another GitHub Actions toolkit for value assertion.
 Minimal API. All you have to remember is:
 
 ```yml
-    - uses: <my name>/assert/<action name>
+    - uses: <my name>/assert/<action name>@<ref>
       with:
         x: <value>
         <action name>: <the other value>
@@ -18,7 +18,7 @@ Minimal API. All you have to remember is:
 For example,
 
 ```yml
-    - uses: wooseopkim/assert/eq
+    - uses: wooseopkim/assert/eq@main
       with:
         x: 1
         eq: 1
@@ -28,7 +28,7 @@ For example,
 
 ```yml
     - id: assert
-      uses: wooseopkim/assert/eq
+      uses: wooseopkim/assert/eq@main
       with:
         x: 1
         eq: 2
