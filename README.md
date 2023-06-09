@@ -35,6 +35,6 @@ For valid `<action name>` values, see directories in `templates` which have `.en
         x: 1
         eq: 2
     - if: always()
-      run:
+      run: |
         echo ${{ steps.assert.outputs.ok }}
 ```
