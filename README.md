@@ -24,6 +24,8 @@ For example,
         eq: 1
 ```
 
+For valid `<action name>` values, see directories in `templates` which has `.env` files.
+
 ## Using outputs instead
 
 ```yml
