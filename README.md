@@ -24,7 +24,7 @@ For example,
         eq: 1
 ```
 
-For valid `<action name>` values, see directories in `templates` which has `.env` files.
+For valid `<action name>` values, see directories in `templates` which have `.env` files.
 
 ## Using outputs instead
 
