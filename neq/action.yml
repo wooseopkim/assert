@@ -1,0 +1,39 @@
+# DO NOT EDIT MANUALLY
+# GENERATED FROM TEMPLATE templates/action.yml
+
+name: 'assert/neq'
+description: 'Test inequality'
+
+inputs:
+  x:
+    description: 'Value to test'
+    required: true
+  neq:
+    description: 'Value to test `x` against'
+    required: true
+  message:
+    description: 'Error message'
+    required: false
+outputs:
+  ok:
+    description: 'If the assertion has passed'
+    value: ${{ steps.cond.outputs.ok }}
+
+runs:
+  using: 'composite'
+  steps:
+    - id: cond
+      name: 'Test condition'
+      shell: bash
+      run: |
+        echo 'ok=${{ inputs.x != inputs.neq }}' >> $GITHUB_OUTPUT
+    - if: ${{ steps.cond.outputs.ok }}
+      shell: bash
+      # Do nothing, but report success to the actions log
+      run: |
+        :
+    - if: ${{ !steps.cond.outputs.ok }}
+      shell: bash
+      run: |
+        echo "::error ${{ inputs.message || format('Expected {0} not to equal {1}', inputs.x, inputs.neq) }}"
+        exit 1

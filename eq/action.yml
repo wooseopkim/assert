@@ -1,0 +1,39 @@
+# DO NOT EDIT MANUALLY
+# GENERATED FROM TEMPLATE templates/action.yml
+
+name: 'assert/eq'
+description: 'Test equality'
+
+inputs:
+  x:
+    description: 'Value to test'
+    required: true
+  eq:
+    description: 'Value to test `x` against'
+    required: true
+  message:
+    description: 'Error message'
+    required: false
+outputs:
+  ok:
+    description: 'If the assertion has passed'
+    value: ${{ steps.cond.outputs.ok }}
+
+runs:
+  using: 'composite'
+  steps:
+    - id: cond
+      name: 'Test condition'
+      shell: bash
+      run: |
+        echo 'ok=${{ inputs.x == inputs.eq }}' >> $GITHUB_OUTPUT
+    - if: ${{ steps.cond.outputs.ok }}
+      shell: bash
+      # Do nothing, but report success to the actions log
+      run: |
+        :
+    - if: ${{ !steps.cond.outputs.ok }}
+      shell: bash
+      run: |
+        echo "::error ${{ inputs.message || format('Expected {0} to equal {1}', inputs.x, inputs.eq) }}"
+        exit 1
