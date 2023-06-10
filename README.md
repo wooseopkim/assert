@@ -18,7 +18,7 @@ Minimal API. All you have to remember is:
 For example,
 
 ```yml
-    - uses: wooseopkim/assert/eq@main
+    - uses: wooseopkim/assert/eq@v1
       with:
         x: 1
         eq: 1
@@ -30,7 +30,7 @@ For valid `<action name>` values, see directories in `templates` which have `.en
 
 ```yml
     - id: assert
-      uses: wooseopkim/assert/eq@main
+      uses: wooseopkim/assert/eq@v1
       with:
         x: 1
         eq: 2

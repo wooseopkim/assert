@@ -1,0 +1,22 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: wooseopkim/actions-bot@v1
+      - name: Release to branch
+        run: |
+          VERSION=$(cat version.txt)
+          git checkout -b "$VERSION"
+          make actions
+          git add ./*/action.yml -f
+          git tag -fa "$VERSION" -m "Release $VERSION"
+          git commit -m "Release $VERSION"
+          git push origin "$VERSION" -f
