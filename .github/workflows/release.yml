@@ -19,4 +19,4 @@ jobs:
           git add ./*/action.yml -f
           git tag -fa "$VERSION" -m "Release $VERSION"
           git commit -m "Release $VERSION"
-          git push origin "$VERSION" -f
+          git push origin refs/heads/"$VERSION" -f
